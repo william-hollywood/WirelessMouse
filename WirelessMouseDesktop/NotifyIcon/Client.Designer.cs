@@ -3,7 +3,7 @@
     using System;
     using System.Windows.Forms;
 
-    partial class Client:Form
+    partial class Client : Form
     {
         /// <summary>
         ///  Required designer variable.
@@ -21,6 +21,7 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
+            this.stream.Dispose();
         }
 
         #region Windows Form Designer generated code

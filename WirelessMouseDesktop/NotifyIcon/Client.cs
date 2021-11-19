@@ -8,6 +8,8 @@ namespace DesktopApp
 {
     public partial class Client : Form
     {
+        private readonly IDisposable stream;
+
         public static IObservable<UdpReceiveResult> UdpStream()
         {
             return Observable.Using(() =>
@@ -24,7 +26,7 @@ namespace DesktopApp
         public Client()
         {
             InitializeComponent();
-            _ = UdpStream().Subscribe(udp => HandleUDP(udp));
+            this.stream = UdpStream().Subscribe(udp => HandleUDP(udp));
         }
 
         private static void HandleUDP(UdpReceiveResult udp)
