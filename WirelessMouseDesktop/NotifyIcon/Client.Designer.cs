@@ -1,9 +1,9 @@
-﻿namespace NotifyIcon
+﻿namespace DesktopApp
 {
     using System;
     using System.Windows.Forms;
 
-    partial class Form
+    partial class Client:Form
     {
         /// <summary>
         ///  Required designer variable.
@@ -51,7 +51,7 @@
             // 
             // contextMenuStrip
             // 
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
             {
                 this.quitToolStripMenuItem
             });

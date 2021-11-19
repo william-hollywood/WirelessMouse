@@ -1,4 +1,5 @@
-namespace NotifyIcon
+
+namespace DesktopApp
 {
     internal static class Program
     {
@@ -6,10 +7,10 @@ namespace NotifyIcon
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form());
+            Application.Run(new Client());
         }
     }
 }
