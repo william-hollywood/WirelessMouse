@@ -24,12 +24,25 @@ namespace Encoding
         public void Decode_Correctly_Decodes_Bytes()
         {
             string password = "SomeText";
-            short inX = 0x4444;
-            short inY = -0x4444;
+            short inX = 16000;
+            short inY = 16000;
             byte[] data = Encoding.Encode(inX, inY, password);
             (short dx, short dy) = Encoding.Decode(data, password);
             Assert.AreEqual(inX, dx);
             Assert.AreEqual(inY, dy);
+        }
+
+        [Test]
+        public void EncodeDecode_All_Combinations()
+        {
+            string password = "SomeText";
+            for (short i = short.MinValue; i <= short.MaxValue; i++)
+            {
+                byte[] data = Encoding.Encode(i, i, password);
+                (short dx, short dy) = Encoding.Decode(data, password);
+                Assert.AreEqual(i, dx);
+                Assert.AreEqual(i, dy);
+            }
         }
     }
 }

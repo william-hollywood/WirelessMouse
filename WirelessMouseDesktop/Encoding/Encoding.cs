@@ -8,7 +8,7 @@ namespace Encoding
         /// <summary>
         /// representation of `0101` repeated 8 times
         /// Int value: 1431655765
-        /// </summary>
+        /// </summary>v
         public const int CheckNum = 0x55555555;
 
         public static byte[] Encode(short dx, short dy, string password)
@@ -50,14 +50,16 @@ namespace Encoding
         {
             short dx = 0, dy = 0;
             int encoding = GetEncoding(ref password);
-            int values = (dx << 16) + dy;
-            values ^= encoding;
             int checksum = CheckNum ^ encoding;
+
             int inChecksum = BitConverter.ToInt32(bytes.AsSpan()[4..]);
             if (checksum == inChecksum)
             {
-                dx = BitConverter.ToInt16(bytes.AsSpan()[0..2]);
-                dy = BitConverter.ToInt16(bytes.AsSpan()[2..5]);
+                int values = BitConverter.ToInt32(bytes.AsSpan()[..4]);
+                values ^= encoding;
+                byte[] valBytes = BitConverter.GetBytes(values);
+                dx = BitConverter.ToInt16(valBytes.AsSpan()[..2]);
+                dy = BitConverter.ToInt16(valBytes.AsSpan()[2..4]);
                 return (dx, dy);
             }
             return (0, 0);
