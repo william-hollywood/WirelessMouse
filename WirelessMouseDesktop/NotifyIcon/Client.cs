@@ -26,12 +26,7 @@ namespace DesktopApp
         public Client()
         {
             InitializeComponent();
-            this.stream = UdpStream().Subscribe(udp => HandleUDP(udp));
-        }
-
-        private static void HandleUDP(UdpReceiveResult udp)
-        {
-            Debug.WriteLine($"{Encoding.ASCII.GetString(udp.Buffer)}");
+            this.stream = UdpStream().Subscribe(udp => MouseControl.HandleUDP(udp));
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace DesktopApp
 {
@@ -18,6 +21,11 @@ namespace DesktopApp
             // end
 
             Console.WriteLine($"{p.X} {p.Y}");
+        }
+
+        public static void HandleUDP(UdpReceiveResult udp)
+        {
+            Debug.WriteLine($"{Encoding.ASCII.GetString(udp.Buffer)}");
         }
     }
 }

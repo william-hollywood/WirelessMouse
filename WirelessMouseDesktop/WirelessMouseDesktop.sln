@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesktopApp", "NotifyIcon\DesktopApp.csproj", "{BFBB3F3C-EE39-49CA-B433-BE44CD3BF164}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Encoding", "Encoding\Encoding.csproj", "{0E839EB0-55F4-4BB9-B5E1-37E958C8B3ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BFBB3F3C-EE39-49CA-B433-BE44CD3BF164}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFBB3F3C-EE39-49CA-B433-BE44CD3BF164}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFBB3F3C-EE39-49CA-B433-BE44CD3BF164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E839EB0-55F4-4BB9-B5E1-37E958C8B3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E839EB0-55F4-4BB9-B5E1-37E958C8B3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E839EB0-55F4-4BB9-B5E1-37E958C8B3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E839EB0-55F4-4BB9-B5E1-37E958C8B3ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
