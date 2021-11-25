@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using NUnit.Framework.Internal;
 
 namespace Encoding
 {
@@ -11,12 +12,12 @@ namespace Encoding
         /// </summary>v
         public const uint CheckNum = 0x55555555;
 
-        public static byte[] Encode(short dx, short dy, string password)
+        public static byte[] Encode(this (short dx, short dy) encodeValues, string password)
         {
             byte[] data = new byte[8];
             uint encoding = GetEncoding(ref password);
 
-            uint values = (uint)(((ushort)dx << 16) + (ushort)dy);
+            uint values = (uint)(((ushort)encodeValues.dx << 16) + (ushort)encodeValues.dy);
             values ^= encoding;
 
             uint checksum = CheckNum ^ encoding;
@@ -48,7 +49,7 @@ namespace Encoding
             return encoding;
         }
 
-        public static (short dx, short dy) Decode(byte[] bytes, string password)
+        public static (short dx, short dy) Decode(this byte[] bytes, string password)
         {
             uint encoding = GetEncoding(ref password);
             uint checksum = CheckNum ^ encoding;

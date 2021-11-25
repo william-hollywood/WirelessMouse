@@ -9,21 +9,21 @@ namespace Encoding
         [Test]
         public void Odd_Password_length()
         {
-            byte[] data = Encoding.Encode(0, 0, "Odd");
+            byte[] data = ((short)0, (short)0).Encode("SomeText");
             short dx = BitConverter.ToInt16(data, 0);
             short dy = BitConverter.ToInt16(data, 2);
             Assert.AreNotEqual(dx, 0);
             Assert.AreNotEqual(dy, 0);
         }
 
-    [Test]
+        [Test]
         public void Encode_Obfuscates_Bytes()
         {
-            byte[] data = Encoding.Encode(0, 0, "SomeText");
+            byte[] data = ((short)0, (short)0).Encode("SomeText");
             short dx = BitConverter.ToInt16(data, 0);
             short dy = BitConverter.ToInt16(data, 2);
-            Assert.AreNotEqual(dx, 0);
-            Assert.AreNotEqual(dy, 0);
+            Assert.AreNotEqual(0, dx);
+            Assert.AreNotEqual(0, dy);
         }
 
         [Test]
@@ -32,8 +32,8 @@ namespace Encoding
             string password = "SomeText";
             short inX = 16000;
             short inY = 16000;
-            byte[] data = Encoding.Encode(inX, inY, password);
-            (short dx, short dy) = Encoding.Decode(data, password);
+            byte[] data = (inX, inY).Encode(password);
+            (short dx, short dy) = data.Decode(password);
             Assert.AreEqual(inX, dx);
             Assert.AreEqual(inY, dy);
         }
@@ -44,7 +44,7 @@ namespace Encoding
             string password = "SomeText";
             for (short i = short.MinValue; i < short.MaxValue; i++)
             {
-                byte[] data = Encoding.Encode(i, i, password);
+                byte[] data = (i, i).Encode(password);
                 (short dx, short dy) = Encoding.Decode(data, password);
                 Assert.AreEqual(i, dx);
                 Assert.AreEqual(i, dy);

@@ -28,5 +28,6 @@ namespace DesktopApp
             InitializeComponent();
             this.stream = UdpStream().Subscribe(udp => MouseControl.HandleUDP(udp));
         }
+
     }
 }
