@@ -25,7 +25,7 @@ namespace DesktopApp
 
         public static void HandleUDP(UdpReceiveResult udp)
         {
-            Debug.WriteLine($"{Encoding.ASCII.GetString(udp.Buffer)}");
+            Debug.WriteLine($"{System.Text.Encoding.ASCII.GetString(udp.Buffer)}");
         }
     }
 }
