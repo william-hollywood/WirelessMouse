@@ -2,6 +2,7 @@
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using Encoding;
 
 namespace DesktopApp
 {
@@ -13,19 +14,16 @@ namespace DesktopApp
         [DllImport("user32.dll")]
         private static extern bool GetCursorPos(out Point point);
 
-        public static void MouseExample()
-        {
-            // nw in
-            _ = GetCursorPos(out var p);
-            _ = SetCursorPos(p.X - 50, p.Y - 50);
-            // end
-
-            Console.WriteLine($"{p.X} {p.Y}");
-        }
+        public static string password = "default";
 
         public static void HandleUDP(UdpReceiveResult udp)
         {
-            Debug.WriteLine($"{System.Text.Encoding.ASCII.GetString(udp.Buffer)}");
+            var (dx, dy) = udp.Buffer.Decode(password);
+
+            /*_ = GetCursorPos(out var p);
+            _ = SetCursorPos(p.X + dx, p.Y + dy);*/
+
+            Debug.WriteLine($"{dx} {dy}");
         }
     }
 }
