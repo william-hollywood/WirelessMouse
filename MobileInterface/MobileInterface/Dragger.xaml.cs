@@ -8,8 +8,6 @@ namespace MobileInterface
 	{
 		private UdpClient udp;
 		private bool first;
-		private double lastX;
-		private double lastY;
 
 		public Color Color { get; set; } 
 
@@ -18,8 +16,6 @@ namespace MobileInterface
 			InitializeComponent();
 			udp = new UdpClient();
 
-			lastX = 0;
-			lastY = 0;
 			first = true;
 			var panGestureRecognizer = new PanGestureRecognizer();
 			panGestureRecognizer.PanUpdated += (sender, eventArgs) => OnDrag(sender, eventArgs);
@@ -27,12 +23,12 @@ namespace MobileInterface
 
 			var singleTapGestureRecognizer = new TapGestureRecognizer();
 			singleTapGestureRecognizer.NumberOfTapsRequired = 1;
-			singleTapGestureRecognizer.Tapped += (sender, eventArgs) => { Debug.WriteLine("single"); };
+			singleTapGestureRecognizer.Tapped += (sender, eventArgs) => { SendPkt(short.MaxValue, short.MaxValue); };
 			GestureRecognizers.Add(singleTapGestureRecognizer);
 
 			var doubleTapGestureRecognizer = new TapGestureRecognizer();
 			doubleTapGestureRecognizer.NumberOfTapsRequired = 2;
-			doubleTapGestureRecognizer.Tapped += (sender, eventArgs) => { Debug.WriteLine("double"); };
+			doubleTapGestureRecognizer.Tapped += (sender, eventArgs) => { SendPkt(short.MinValue, short.MinValue); };
 			GestureRecognizers.Add(doubleTapGestureRecognizer);
 		}
 
@@ -40,35 +36,26 @@ namespace MobileInterface
 		{
 			if (first)
             {
-				lastX = e.TotalX;
-				lastY = e.TotalY;
+				SendPkt(0, 0);
 				first = false;
 			}
-			if (e.StatusType != GestureStatus.Completed)
+			switch (e.StatusType)
             {
-				short dx = 0, dy = 0;
-
-				//need to redo this
-
-				if (Math.Abs(e.TotalX - lastX) > 1)
-				{
-					dx = (short)(e.TotalX - lastX);
-					lastX = e.TotalX;
-				}
-				if (Math.Abs(e.TotalY - lastY) > 1)
-				{
-					dy = (short)(e.TotalY - lastY);
-					lastY = e.TotalY;
-				}
-				if (dx != 0 && dy != 0)
-				{
-					var data = (dx, dy).Encode(MainPage.Password);
-					udp.SendAsync(data, data.Length, MainPage.Address, 8192);
-				}
-			} else
-            {
-				first = true;
-            }
+                case GestureStatus.Running:
+                    SendPkt((short) e.TotalX, (short) e.TotalY);
+                    break;
+                case GestureStatus.Completed:
+					first = true;
+					break;
+				default:
+					break;
+			}
 		}
-	}
+
+        private void SendPkt(short x, short y)
+        {
+            var data = (x, y).Encode(MainPage.Password);
+            udp.SendAsync(data, data.Length, MainPage.Address, 8192);
+        }
+    }
 }
