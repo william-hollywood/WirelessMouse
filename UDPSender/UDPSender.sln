@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UDPSender", "UDPSender\UDPSender.csproj", "{A640C178-EC08-4B91-87D2-474E2B924FA2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesktopApp", "..\WirelessMouseDesktop\NotifyIcon\DesktopApp.csproj", "{9DA2100D-D54D-4ECC-AA71-2137B8610C30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Encoding", "..\WirelessMouseDesktop\Encoding\Encoding.csproj", "{36E57666-B1E0-48D3-B067-697279AEE25E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{A640C178-EC08-4B91-87D2-474E2B924FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A640C178-EC08-4B91-87D2-474E2B924FA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A640C178-EC08-4B91-87D2-474E2B924FA2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9DA2100D-D54D-4ECC-AA71-2137B8610C30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9DA2100D-D54D-4ECC-AA71-2137B8610C30}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9DA2100D-D54D-4ECC-AA71-2137B8610C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9DA2100D-D54D-4ECC-AA71-2137B8610C30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36E57666-B1E0-48D3-B067-697279AEE25E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36E57666-B1E0-48D3-B067-697279AEE25E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36E57666-B1E0-48D3-B067-697279AEE25E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36E57666-B1E0-48D3-B067-697279AEE25E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

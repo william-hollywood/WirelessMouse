@@ -14,7 +14,7 @@ namespace DesktopApp
         [DllImport("user32.dll")]
         private static extern bool GetCursorPos(out Point point);
 
-        public static string password = "default";
+        public static string password = "Default";
 
         public static void HandleUDP(UdpReceiveResult udp)
         {

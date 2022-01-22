@@ -1,0 +1,13 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:custom="clr-namespace:MobileInterface"
+             x:Class="MobileInterface.MainPage"
+             BackgroundColor="{DynamicResource SecondaryColor}">
+		<Grid ColumnDefinitions="auto,auto" RowDefinitions="auto,*" Margin="3">
+			<Button Grid.Row="0" Grid.Column="0" Text="Password" Margin="1" Clicked="EnterPassword"/>
+			<Button Grid.Row="0" Grid.Column="1" Text="Address" Margin="1" Clicked="EnterAddress"/>
+
+			<custom:Dragger Color="DarkGray" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+		</Grid>
+</ContentPage>

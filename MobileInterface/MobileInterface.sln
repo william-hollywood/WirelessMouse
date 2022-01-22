@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31611.283
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileInterface", "MobileInterface\MobileInterface.csproj", "{28C7FB31-565E-4AA7-A011-1016EBC763E9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Encoding", "..\WirelessMouseDesktop\Encoding\Encoding.csproj", "{442E8D3F-AD8E-4CF6-862B-A61DB0593306}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28C7FB31-565E-4AA7-A011-1016EBC763E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28C7FB31-565E-4AA7-A011-1016EBC763E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28C7FB31-565E-4AA7-A011-1016EBC763E9}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{28C7FB31-565E-4AA7-A011-1016EBC763E9}.Debug|x64.ActiveCfg = Debug|x64
+		{28C7FB31-565E-4AA7-A011-1016EBC763E9}.Debug|x64.Build.0 = Debug|x64
+		{28C7FB31-565E-4AA7-A011-1016EBC763E9}.Debug|x64.Deploy.0 = Debug|x64
+		{28C7FB31-565E-4AA7-A011-1016EBC763E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28C7FB31-565E-4AA7-A011-1016EBC763E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28C7FB31-565E-4AA7-A011-1016EBC763E9}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{28C7FB31-565E-4AA7-A011-1016EBC763E9}.Release|x64.ActiveCfg = Release|x64
+		{28C7FB31-565E-4AA7-A011-1016EBC763E9}.Release|x64.Build.0 = Release|x64
+		{28C7FB31-565E-4AA7-A011-1016EBC763E9}.Release|x64.Deploy.0 = Release|x64
+		{442E8D3F-AD8E-4CF6-862B-A61DB0593306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{442E8D3F-AD8E-4CF6-862B-A61DB0593306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{442E8D3F-AD8E-4CF6-862B-A61DB0593306}.Debug|x64.ActiveCfg = Debug|x64
+		{442E8D3F-AD8E-4CF6-862B-A61DB0593306}.Debug|x64.Build.0 = Debug|x64
+		{442E8D3F-AD8E-4CF6-862B-A61DB0593306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{442E8D3F-AD8E-4CF6-862B-A61DB0593306}.Release|Any CPU.Build.0 = Release|Any CPU
+		{442E8D3F-AD8E-4CF6-862B-A61DB0593306}.Release|x64.ActiveCfg = Release|x64
+		{442E8D3F-AD8E-4CF6-862B-A61DB0593306}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
+	EndGlobalSection
+EndGlobal
