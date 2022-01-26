@@ -14,15 +14,35 @@ namespace Encoding
 
         public static byte[] Encode(this (short dx, short dy) encodeValues, string password)
         {
-            byte[] data = new byte[8];
+            byte[] data = new byte[12];
             uint encoding = GetEncoding(ref password);
+
+            uint type = 0 ^ encoding;
 
             uint values = (uint)(((ushort)encodeValues.dx << 16) + (ushort)encodeValues.dy);
             values ^= encoding;
 
             uint checksum = CheckNum ^ encoding;
-            BitConverter.GetBytes(values).CopyTo(data, 0);
-            BitConverter.GetBytes(checksum).CopyTo(data, 4);
+            BitConverter.GetBytes(type).CopyTo(data, 0);
+            BitConverter.GetBytes(values).CopyTo(data, 4);
+            BitConverter.GetBytes(checksum).CopyTo(data, 8);
+            return data;
+        }
+
+        public static byte[] Encode(this int encodeKey, string password)
+        {
+            byte[] data = new byte[12];
+            uint encoding = GetEncoding(ref password);
+
+            uint type = 1 ^ encoding;
+
+            uint value = (uint)encodeKey;
+            value ^= encoding;
+
+            uint checksum = CheckNum ^ encoding;
+            BitConverter.GetBytes(type).CopyTo(data, 0);
+            BitConverter.GetBytes(value).CopyTo(data, 4);
+            BitConverter.GetBytes(checksum).CopyTo(data, 8);
             return data;
         }
 
@@ -49,23 +69,52 @@ namespace Encoding
             return encoding;
         }
 
-        public static (short dx, short dy) Decode(this byte[] bytes, string password)
+        public static void Decode(this byte[] bytes, string password, out uint type, out short dx, out short dy, out uint key)
         {
             uint encoding = GetEncoding(ref password);
             uint checksum = CheckNum ^ encoding;
 
-            uint inChecksum = BitConverter.ToUInt32(bytes.AsSpan()[4..]);
+            uint inChecksum = BitConverter.ToUInt32(bytes.AsSpan()[8..]);
             if (checksum == inChecksum)
             {
-                uint values = BitConverter.ToUInt32(bytes.AsSpan()[..4]);
-                values ^= encoding;
-
-                byte[] valBytes = BitConverter.GetBytes(values);
-                short dx = BitConverter.ToInt16(valBytes.AsSpan()[..2]);
-                short dy = BitConverter.ToInt16(valBytes.AsSpan()[2..4]);
-                return (dx, dy);
+                type = BitConverter.ToUInt32(bytes.AsSpan()[0..4]) ^ encoding;
+                switch (type)
+                {
+                    case 0:
+                        bytes.AsSpan()[4..8].ToArray().DecodeMouse(encoding, out dx, out dy);
+                        key = 0;
+                        return;
+                    case 1:
+                        bytes.AsSpan()[4..8].ToArray().DecodeKey(encoding, out key);
+                        dx = 0; 
+                        dy = 0;
+                        return;
+                }
             }
-            return (0, 0);
+            type = 0;
+            key = 0;
+            dx = 0;
+            dy = 0;
+            return;
+        }
+
+        public static void DecodeMouse(this byte[] bytes, uint encoding, out short dx, out short dy)
+        {
+            uint values = BitConverter.ToUInt32(bytes.AsSpan()[..4]);
+            values ^= encoding;
+
+            byte[] valBytes = BitConverter.GetBytes(values);
+            dx = BitConverter.ToInt16(valBytes.AsSpan()[..2]);
+            dy = BitConverter.ToInt16(valBytes.AsSpan()[2..4]);
+        }
+
+        public static void DecodeKey(this byte[] bytes, uint encoding, out uint key)
+        {
+            uint values = BitConverter.ToUInt32(bytes.AsSpan()[..4]);
+            values ^= encoding;
+
+            byte[] valBytes = BitConverter.GetBytes(values);
+            key = BitConverter.ToUInt32(valBytes);
         }
     }
 }

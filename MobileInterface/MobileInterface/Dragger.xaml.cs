@@ -1,5 +1,4 @@
 using Encoding;
-using System.Diagnostics;
 using System.Net.Sockets;
 
 namespace MobileInterface
@@ -18,7 +17,7 @@ namespace MobileInterface
 
 			first = true;
 			var panGestureRecognizer = new PanGestureRecognizer();
-			panGestureRecognizer.PanUpdated += (sender, eventArgs) => OnDrag(sender, eventArgs);
+			panGestureRecognizer.PanUpdated += (sender, eventArgs) => { OnDrag(sender, eventArgs); };
             GestureRecognizers.Add(panGestureRecognizer);
 
 			var singleTapGestureRecognizer = new TapGestureRecognizer();

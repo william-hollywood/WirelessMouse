@@ -13,9 +13,9 @@ public partial class MainPage : ContentPage
 		InitializeComponent();
 	}
 
-	private void EnterPassword(object sender, EventArgs e)
+	private async void EnterPassword(object sender, EventArgs e)
     {
-		//display text entry
+		string pass = await DisplayPromptAsync("Password", "Enter a Password.", placeholder: Password);
     }
 
 	private void EnterAddress(object sender, EventArgs e)
