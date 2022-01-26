@@ -2,8 +2,8 @@
 
 namespace Encoding
 {
-    
-    internal class Tests 
+
+    internal class Tests
     {
         [TestFixture]
         internal class MouseTests
@@ -59,7 +59,7 @@ namespace Encoding
         [TestFixture]
         internal class KeyTests
         {
-            
+
         }
     }
 }

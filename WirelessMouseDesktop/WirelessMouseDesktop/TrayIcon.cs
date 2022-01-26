@@ -31,12 +31,22 @@ namespace DesktopApp
             trayIcon.Icon = SystemIcons.Application;
 
             ContextMenuStrip menu = new();
-            ToolStripMenuItem menuItem = new();
+            
 
-            menuItem.Text = "Exit";
-            menuItem.Click += new(Exit);
+            ToolStripMenuItem passwordItem = new();
 
-            _ = menu.Items.Add(menuItem);
+            passwordItem.Text = "Change Password";
+            passwordItem.Click += new(Exit);
+
+            _ = menu.Items.Add(passwordItem);
+
+            ToolStripMenuItem exitItem = new();
+
+            exitItem.Text = "Exit";
+            exitItem.Click += new(Exit);
+
+            _ = menu.Items.Add(exitItem);
+
             trayIcon.ContextMenuStrip = menu;
 
             trayIcon.Visible = true;

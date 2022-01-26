@@ -86,7 +86,7 @@ namespace Encoding
                         return;
                     case 1:
                         bytes.AsSpan()[4..8].ToArray().DecodeKey(encoding, out key);
-                        dx = 0; 
+                        dx = 0;
                         dy = 0;
                         return;
                 }

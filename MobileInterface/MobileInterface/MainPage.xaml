@@ -3,11 +3,9 @@
 			 xmlns:custom="clr-namespace:MobileInterface"
              x:Class="MobileInterface.MainPage"
              BackgroundColor="{DynamicResource SecondaryColor}">
-		<Grid ColumnDefinitions="auto,auto" RowDefinitions="auto,*" Margin="3">
-			<Button Grid.Row="0" Grid.Column="0" Text="Password" Margin="1" Clicked="EnterPassword"/>
-			<Button Grid.Row="0" Grid.Column="1" Text="Address" Margin="1" Clicked="EnterAddress"/>
-
-			<custom:Dragger Color="DarkGray" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-
-		</Grid>
+    <Grid ColumnDefinitions="auto,auto" RowDefinitions="auto,*" Margin="3">
+        <Button Grid.Row="0" Grid.Column="0" Text="Password" Margin="1" Clicked="EnterPassword"/>
+        <Button Grid.Row="0" Grid.Column="1" Text="Address" Margin="1" Clicked="EnterAddress"/>
+        <custom:Dragger Color="DarkGray" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+    </Grid>
 </ContentPage>
