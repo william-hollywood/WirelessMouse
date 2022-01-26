@@ -14,7 +14,7 @@
 		<ApplicationTitle>MobileInterface</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.wdh.mobileinterfaceTest</ApplicationId>
+		<ApplicationId>com.wdh.mobileinterface</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationVersion>1</ApplicationVersion>

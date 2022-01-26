@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Encoding;
 
-namespace DesktopApp
+namespace WirelessMouseDesktop
 {
     internal class MouseControl
     {
@@ -31,8 +31,6 @@ namespace DesktopApp
 
         private const uint MOUSEEVENTF_RIGHTUP = 0x10;   //The left button was released.
 
-        private static string password = "Default";
-
         private static int lastX;
         private static int lastY;
 
@@ -40,7 +38,7 @@ namespace DesktopApp
 
         public static void HandleUDP(UdpReceiveResult udp)
         {
-            udp.Buffer.Decode(password, out uint type, out short dx, out short dy, out uint key);
+            udp.Buffer.Decode(Properties.Settings.Default.Password, out uint type, out short dx, out short dy, out uint key);
             switch (type)
             {
                 case 0:
