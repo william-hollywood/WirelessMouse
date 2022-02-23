@@ -5,15 +5,15 @@ namespace MobileInterface
 {
 	public partial class Dragger : ContentView
 	{
-		private UdpClient udp;
+		private static UdpClient UDP;
 		private bool first;
 
-		public Color Color { get; set; } 
+		public Color Color { get; set; }
 
 		public Dragger()
 		{
 			InitializeComponent();
-			udp = new UdpClient();
+			UDP = new UdpClient();
 
 			first = true;
 			var panGestureRecognizer = new PanGestureRecognizer();
@@ -41,7 +41,7 @@ namespace MobileInterface
 			switch (e.StatusType)
             {
                 case GestureStatus.Running:
-                    SendPkt((short) e.TotalX, (short) e.TotalY);
+					SendPkt((short) e.TotalX, (short) e.TotalY);
                     break;
                 case GestureStatus.Completed:
 					first = true;
@@ -51,10 +51,10 @@ namespace MobileInterface
 			}
 		}
 
-        private void SendPkt(short x, short y)
+        public static void SendPkt(short x, short y)
         {
             var data = (x, y).Encode(MainPage.Password);
-            udp.SendAsync(data, data.Length, MainPage.Address, 8192);
+            UDP.SendAsync(data, data.Length, MainPage.Address, 8192);
         }
     }
 }

@@ -3,9 +3,11 @@
 			 xmlns:custom="clr-namespace:MobileInterface"
              x:Class="MobileInterface.MainPage"
              BackgroundColor="{DynamicResource SecondaryColor}">
-    <Grid ColumnDefinitions="auto,auto" RowDefinitions="auto,*" Margin="3">
+    <Grid ColumnDefinitions="auto,auto,auto" RowDefinitions="auto,*,50" Margin="3">
         <Button Grid.Row="0" Grid.Column="0" Text="Password" Margin="1" Clicked="EnterPassword"/>
-        <Button Grid.Row="0" Grid.Column="1" Text="Address" Margin="1" Clicked="EnterAddress"/>
-        <custom:Dragger Color="DarkGray" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <Button Grid.Row="0" Grid.Column="1" Text="Keyboard" Margin="1" Clicked="OpenKeyboard"/>
+        <Button Grid.Row="0" Grid.Column="2" Text="Address" Margin="1" Clicked="EnterAddress"/>
+        <custom:Dragger Color="DarkGray" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3"/>
+        <custom:ToggleButton Grid.Row="2" ToggleColorOn="Green" ToggleColorOff="Red"/>
     </Grid>
 </ContentPage>

@@ -9,6 +9,8 @@ public partial class MainPage : ContentPage
 
     public static string Address { get; private set; }
 
+    //private TextCell keybordCell;
+    
     public MainPage()
     {
         Password = Preferences.Get("password", "Default");
@@ -28,6 +30,12 @@ public partial class MainPage : ContentPage
         }
         Preferences.Set("password", entered);
         Password = entered;
+    }
+
+    private void OpenKeyboard(object sender, EventArgs e)
+    {
+        //open a keyboard to take input from the user and call the function on each key press
+
     }
 
     private async void EnterAddress(object sender, EventArgs e)

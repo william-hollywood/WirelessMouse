@@ -4,7 +4,7 @@
     <ActiveDebugFramework>net6.0-android</ActiveDebugFramework>
     <IsFirstTimeProjectOpen>False</IsFirstTimeProjectOpen>
     <ActiveDebugProfile>Samsung SM-A305GN (Android 9.0 - API 28)</ActiveDebugProfile>
-    <SelectedPlatformGroup>PhysicalDevice</SelectedPlatformGroup>
+    <SelectedPlatformGroup>Emulator</SelectedPlatformGroup>
     <SelectedDevice>Samsung SM-A305GN</SelectedDevice>
     <DefaultDevice>pixel_5_-_api_30</DefaultDevice>
   </PropertyGroup>
@@ -16,6 +16,9 @@
   </PropertyGroup>
   <ItemGroup>
     <MauiXaml Update="Dragger.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="ToggleButton.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
   </ItemGroup>

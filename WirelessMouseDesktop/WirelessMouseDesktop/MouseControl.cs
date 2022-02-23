@@ -34,6 +34,8 @@ namespace WirelessMouseDesktop
         private static int lastX;
         private static int lastY;
 
+        private static bool holdPress = false;
+
         public const double SCALE = 2.5;
 
         public static void HandleUDP(UdpReceiveResult udp)
@@ -57,17 +59,35 @@ namespace WirelessMouseDesktop
 
         private static void HandleMouse(short dx, short dy)
         {
-            if (dx == short.MaxValue && dy == short.MaxValue)
+            if (dx == short.MaxValue && dy == short.MaxValue) // left click
             {
-                _ = GetCursorPos(out var p);
-                mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, new IntPtr());
-                mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, new IntPtr());
+                if (!holdPress)
+                {
+                    _ = GetCursorPos(out var p);
+                    mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, new IntPtr());
+                    mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, new IntPtr());
+                }
             }
-            else if (dx == short.MinValue && dy == short.MinValue)
+            else if (dx == short.MinValue && dy == short.MinValue) // right click
             {
-                _ = GetCursorPos(out var p);
-                mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, new IntPtr());
-                mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, new IntPtr());
+                if (!holdPress)
+                {
+                    _ = GetCursorPos(out var p);
+                    mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, new IntPtr());
+                    mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, new IntPtr());
+                }
+            }
+            else if (dx == short.MaxValue && dy == short.MinValue) // left down toggle
+            {
+                if (!holdPress) // check this
+                    mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, new IntPtr());
+                holdPress = true;
+            }
+            else if (dx == short.MinValue && dy == short.MaxValue) // left up toggle
+            {
+                if (holdPress) // check this
+                    mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, new IntPtr());
+                holdPress = false;
             }
             else
             {
