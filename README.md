@@ -16,4 +16,5 @@ The application acts as trackpad and has single and double click functionality a
 ## Future stuff
 I plan on adding:
 - Keyboard passthrough (using native phone keyboards)
-- Click and drag functionality
+- Click and drag functionality without a toggle button
+- USB mounted mouse device (winapi is a bit iffy in some cases)
