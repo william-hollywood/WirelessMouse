@@ -141,7 +141,7 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 //===================================================================================
 // WinMain
 //===================================================================================
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE prev, LPSTR cmdline, int show) {
+int Window_Create(HINSTANCE hInst, HINSTANCE prev, LPSTR cmdline, int show) {
     // CHECK IF PREVIOUS ISTANCE IS RUNNING.-----------------------------------------------------
     HWND hPrev = NULL;
     if (hPrev = FindWindow(THIS_CLASSNAME, TEXT("Title"))) {
@@ -154,7 +154,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE prev, LPSTR cmdline, int show) {
     memset(&wclx, 0, sizeof(wclx));
 
     wclx.cbSize = sizeof(wclx);
-    wclx.style = 0;
+    wclx.style = WS_EX_TOOLWINDOW;
     wclx.lpfnWndProc = &WndProc;
     wclx.cbClsExtra = 0;
     wclx.cbWndExtra = 0;
@@ -170,7 +170,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE prev, LPSTR cmdline, int show) {
     RegisterClassEx(&wclx);
 
     // CREATE WINDOW.----------------------------------------------------------------------------
-    HWND hWnd = CreateWindowA(THIS_CLASSNAME, TEXT(""), WS_DISABLED, 100, 100, 250, 150, NULL, NULL, hInst, NULL);
+    HWND hWnd = CreateWindowEx(NULL, THIS_CLASSNAME, TEXT(""), WS_DISABLED, 100, 100, 250, 150, NULL, NULL, hInst, NULL);
     if (!hWnd) {
         MessageBox(NULL, "Can't create window!", TEXT("Warning!"), MB_ICONERROR | MB_OK | MB_TOPMOST);
         return 1;
@@ -248,10 +248,10 @@ int udp_thread_func(LPVOID lpParam) {
     return 0;
 }
 
-int main(void) {
+int WINAPI WinMain(void) {
     udpThread = CreateThread(NULL, 0, udp_thread_func, NULL, 0, NULL);
     if (!udpThread) {
         return -1;
     }
-    return WinMain(GetModuleHandle(NULL), NULL, GetCommandLine(), SW_SHOW);
+    return Window_Create(GetModuleHandle(NULL), NULL, GetCommandLine(), SW_SHOW);
 }
