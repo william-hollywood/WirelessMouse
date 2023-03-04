@@ -222,7 +222,7 @@ int udp_thread_func(LPVOID lpParam) {
         printf("Bind failed with error code : %d", WSAGetLastError());
         exit(EXIT_FAILURE);
     }
-    puts("Bind done");
+    printf("Bind done");
 
     // keep listening for data
     while (1) {
