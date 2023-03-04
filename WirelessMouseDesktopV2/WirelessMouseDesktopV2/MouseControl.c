@@ -6,7 +6,7 @@
 #include "Encoding.h"
 
 #define SHORT_MAXVALUE 32767
-#define SHORT_MINVALUE -32767
+#define SHORT_MINVALUE -32768
 
 int32_t lastX;
 int32_t lastY;
