@@ -28,18 +28,24 @@ namespace WirelessMouseDesktop
         /// </summary>
         public TrayIcon()
         {
-            trayIcon = new();
-            trayIcon.Icon = SystemIcons.Application;
+            trayIcon = new()
+            {
+                Icon = SystemIcons.Application
+            };
 
             ContextMenuStrip menu = new();
 
-            ToolStripMenuItem passwordItem = new();
-            passwordItem.Text = "Change Password";
+            ToolStripMenuItem passwordItem = new()
+            {
+                Text = "Change Password"
+            };
             passwordItem.Click += new(ShowPasswordEntry);
             _ = menu.Items.Add(passwordItem);
 
-            ToolStripMenuItem exitItem = new();
-            exitItem.Text = "Exit";
+            ToolStripMenuItem exitItem = new()
+            {
+                Text = "Exit"
+            };
             exitItem.Click += new(Exit);
             _ = menu.Items.Add(exitItem);
 

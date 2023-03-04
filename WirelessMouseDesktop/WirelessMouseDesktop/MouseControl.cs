@@ -63,7 +63,7 @@ namespace WirelessMouseDesktop
             {
                 if (!holdPress)
                 {
-                    _ = GetCursorPos(out var p);
+                    _ = GetCursorPos(out _);
                     mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, new IntPtr());
                     mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, new IntPtr());
                 }
@@ -72,7 +72,7 @@ namespace WirelessMouseDesktop
             {
                 if (!holdPress)
                 {
-                    _ = GetCursorPos(out var p);
+                    _ = GetCursorPos(out _);
                     mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, new IntPtr());
                     mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, new IntPtr());
                 }

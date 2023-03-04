@@ -17,6 +17,6 @@ public class MainActivity : MauiAppCompatActivity
 	{
 		Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
-		base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 }

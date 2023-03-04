@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ActiveDebugFramework>net6.0-android</ActiveDebugFramework>
     <IsFirstTimeProjectOpen>False</IsFirstTimeProjectOpen>
-    <ActiveDebugProfile>Samsung SM-A305GN (Android 9.0 - API 28)</ActiveDebugProfile>
+    <ActiveDebugProfile>Android Emulator</ActiveDebugProfile>
     <SelectedPlatformGroup>Emulator</SelectedPlatformGroup>
     <SelectedDevice>Samsung SM-A305GN</SelectedDevice>
     <DefaultDevice>pixel_5_-_api_30</DefaultDevice>
