@@ -1,0 +1,3 @@
+[submodule "MobileInterfaceV2/rawdrawandroid"]
+	path = MobileInterfaceV2/rawdrawandroid
+	url = https://github.com/cnlohr/rawdrawandroid

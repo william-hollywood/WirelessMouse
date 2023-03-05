@@ -1,0 +1,6 @@
+.vscode
+makecapk
+*.apk
+*.idsig
+*.keystore
+AndroidManifest.xml
