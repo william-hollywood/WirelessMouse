@@ -4,10 +4,11 @@ RAWDRAWANDROID=rawdrawandroid
 CFLAGS:=-I. -ffunction-sections -Os -fvisibility=hidden -DRDALOGFNCB=example_log_function
 LDFLAGS:=-s
 PACKAGENAME?=com.WDH.$(APPNAME)
-SRC:=test.c
+SRC:=src/main.c src/app.c
+SRC+=src/ui/button.c
 
-ANDROIDVERSION=28
-ANDROIDTARGET=28
+ANDROIDVERSION=30
+ANDROIDTARGET=30
 
 TARGETS:=makecapk/lib/arm64-v8a/lib$(APPNAME).so makecapk/lib/armeabi-v7a/lib$(APPNAME).so
 

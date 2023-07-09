@@ -1,8 +1,8 @@
 #include "MouseControl.h"
 
-#include <windows.h>
 #include <WinUser.h>
 #include <limits.h>
+#include <windows.h>
 
 #include "Encoding.h"
 
@@ -46,7 +46,7 @@ void handle_mouse(short dx, short dy) {
 }
 
 void handle_UDP(uint8_t *bytes) {
-    decode(bytes);
+    decode(bytes);  
     switch (type) {
         case 0:
             handle_mouse(dy, dx);
