@@ -25,13 +25,13 @@ unsigned long iframeno = 0;
 #define GENLINEWIDTH 89
 #define GENLINES 67
 
-int genlinelen = 0;
-char genlog[(GENLINEWIDTH + 1) * (GENLINES + 1) + 2] = "log";
+int GenLineLen = 0;
+char GenLog[(GENLINEWIDTH + 1) * (GENLINES + 1) + 2] = "log";
 int genloglen;
 int genloglines;
-int firstnewline = -1;
+int FirstNewLine = -1;
 
-void example_log_function(int readSize, char* buf) {
+void LogFunction(int readSize, char* buf) {
     static og_mutex_t* mt;
     if (!mt) mt = OGCreateMutex();
     OGLockMutex(mt);
@@ -39,32 +39,32 @@ void example_log_function(int readSize, char* buf) {
     for (i = 0; (readSize >= 0) ? (i <= readSize) : buf[i]; i++) {
         char c = buf[i];
         if (c == '\0') c = '\n';
-        if ((c != '\n' && genlinelen >= GENLINEWIDTH) || c == '\n') {
+        if ((c != '\n' && GenLineLen >= GENLINEWIDTH) || c == '\n') {
             int k;
             genloglines++;
             if (genloglines >= GENLINES) {
-                genloglen -= firstnewline + 1;
-                int offset = firstnewline;
-                firstnewline = -1;
+                genloglen -= FirstNewLine + 1;
+                int offset = FirstNewLine;
+                FirstNewLine = -1;
 
                 for (k = 0; k < genloglen; k++) {
-                    if ((genlog[k] = genlog[k + offset + 1]) == '\n' && firstnewline < 0) {
-                        firstnewline = k;
+                    if ((GenLog[k] = GenLog[k + offset + 1]) == '\n' && FirstNewLine < 0) {
+                        FirstNewLine = k;
                     }
                 }
-                genlog[k] = 0;
+                GenLog[k] = 0;
                 genloglines--;
             }
-            genlinelen = 0;
+            GenLineLen = 0;
             if (c != '\n') {
-                genlog[genloglen + 1] = 0;
-                genlog[genloglen++] = '\n';
+                GenLog[genloglen + 1] = 0;
+                GenLog[genloglen++] = '\n';
             }
-            if (firstnewline < 0) firstnewline = genloglen;
+            if (FirstNewLine < 0) FirstNewLine = genloglen;
         }
-        genlog[genloglen + 1] = 0;
-        genlog[genloglen++] = c;
-        if (c != '\n') genlinelen++;
+        GenLog[genloglen + 1] = 0;
+        GenLog[genloglen++] = c;
+        if (c != '\n') GenLineLen++;
     }
 
     OGUnlockMutex(mt);
@@ -79,13 +79,13 @@ int lastmotionx = 0;
 int lastmotiony = 0;
 int lastbid = 0;
 int lastmask = 0;
-int lastkey, lastkeydown;
+int LastKey, LastKeyDown;
 
 static int keyboard_up;
 
 void HandleKey(int keycode, int bDown) {
-    lastkey = keycode;
-    lastkeydown = bDown;
+    LastKey = keycode;
+    LastKeyDown = bDown;
     if (keycode == 4) {
         AndroidSendToBack(1);
     }
@@ -164,7 +164,7 @@ int main() {
         CNFGPenX = 0;
         CNFGPenY = 480;
         char st[50];
-        sprintf(st, "%dx%d %d %d %d %d %d %d\n%d %d", screenx, screeny, lastbuttonx, lastbuttony, lastmotionx, lastmotiony, lastkey, lastkeydown, lastbid, lastmask);
+        sprintf(st, "%dx%d %d %d %d %d %d %d\n%d %d", screenx, screeny, lastbuttonx, lastbuttony, lastmotionx, lastmotiony, LastKey, LastKeyDown, lastbid, lastmask);
         CNFGDrawText(st, 10);
         glLineWidth(2.0);
 
@@ -208,7 +208,7 @@ int main() {
 
         CNFGPenX = 5;
         CNFGPenY = 600;
-        CNFGDrawText(genlog, 4);
+        CNFGDrawText(GenLog, 4);
 
         frames++;
         CNFGSwapBuffers();

@@ -10,8 +10,8 @@ typedef enum State {
     SETTINGS
 } eState;
 
-void AppInit();
+void AppInit(void);
 void AppTick(uint8_t events);
-void AppDraw();
+void AppDraw(void);
 
 #endif // APP_H

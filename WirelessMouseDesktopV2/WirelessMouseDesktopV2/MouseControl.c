@@ -46,10 +46,10 @@ void handle_mouse(short dx, short dy) {
 }
 
 void handle_UDP(uint8_t *bytes) {
-    decode(bytes);  
+    process(bytes);  
     switch (type) {
         case 0:
-            handle_mouse(dy, dx);
+            handle_mouse(dy, dx); // TODO: fix this
             break;
         case 1:
             // HandleKey(key);
