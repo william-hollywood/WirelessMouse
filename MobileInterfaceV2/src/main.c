@@ -28,9 +28,8 @@ uint8_t runtimeDebug = 0;
         CNFGPenY += 40;                    \
     }
 
-uint32_t frames = 0;
-uint64_t iFrameNo = 0;
-volatile int32_t suspended;
+uint32_t Frames = 0;
+volatile int32_t Suspended;
 
 int16_t ScreenX, ScreenY;
 int32_t PressX = 0;
@@ -131,9 +130,9 @@ void HandleMotion(int32_t x, int32_t y, int32_t mask)
 
 void HandleDestroy(void) { }
 
-void HandleSuspend(void) { suspended = 1; }
+void HandleSuspend(void) { Suspended = 1; }
 
-void HandleResume(void) { suspended = 0; }
+void HandleResume(void) { Suspended = 0; }
 
 int32_t main()
 {
@@ -145,11 +144,9 @@ int32_t main()
     AppInit();
 
     while (1) {
-        iFrameNo++;
-
         CNFGHandleInput();
 
-        if (suspended) {
+        if (Suspended) {
             usleep(50000);
             continue;
         }
@@ -185,12 +182,12 @@ int32_t main()
             DoHideKeyboard = 0;
         }
 
-        frames++;
+        Frames++;
         CNFGSwapBuffers();
 
         thisTime = OGGetAbsoluteTime();
         if (thisTime > lastFrameTime + 1) {
-            frames = 0;
+            Frames = 0;
             lastFrameTime += 1;
         }
     }

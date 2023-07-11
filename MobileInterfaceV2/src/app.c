@@ -2,15 +2,12 @@
 
 #include "CNFGAndroid.h"
 #include "ui/ui.h"
-#include <arpa/inet.h>
-#include <netinet/in.h>
 #include <stdio.h>
 #include <string.h>
-#include <sys/socket.h>
 
 #define BORDER_SIZE 30
 
-eState app_state = IDLE;
+eState AppState = IDLE;
 
 uint8_t ButtonCount = 0;
 button_t Buttons[8];
@@ -46,36 +43,9 @@ void ShowKeyboard(void)
 
 extern int16_t ScreenX, ScreenY;
 
-int sockfd;
-struct sockaddr_in server_addr;
-
-void CreateSocket(void)
-{
-    char buffer[512];
-
-    // Create socket
-    sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-    if (sockfd < 0) {
-        perror("Error creating socket");
-        return;
-    }
-
-    // // Bind socket to a specific port (optional)
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(8192);
-    server_addr.sin_addr.s_addr = inet_addr("192.168.1.6");
-
-    // Send data over the socket (optional)
-    strcpy(buffer, "Hello, server!");
-    if (sendto(sockfd, buffer, strlen(buffer), 0, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
-        perror("Error sending data");
-        return;
-    }
-}
-
 void AppInit(void)
 {
-    CreateButton(BORDER_SIZE, BORDER_SIZE, (ScreenX - 100) / 2, 150, "KEYBOARD", &ShowKeyboard);
+    CreateButton(BORDER_SIZE, BORDER_SIZE, (ScreenX - 100) / 2, 150, "KEYBOARD", ShowKeyboard);
     CreateButton(ScreenX - BORDER_SIZE - ((ScreenX - 100) / 2), BORDER_SIZE, (ScreenX - 100) / 2, 150, "ADDRESS", NULL);
     for (int i = 0; i < ButtonCount; i++) {
         InitButton(&Buttons[i]);
@@ -91,7 +61,6 @@ void AppInit(void)
         },
     };
     InitDragger(&Dragger);
-    CreateSocket();
 }
 
 void AppTick(uint8_t events)

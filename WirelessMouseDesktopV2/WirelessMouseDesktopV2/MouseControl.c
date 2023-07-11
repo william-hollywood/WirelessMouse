@@ -1,17 +1,17 @@
 #include "MouseControl.h"
 
+#include <windows.h>
 #include <WinUser.h>
 #include <limits.h>
-#include <windows.h>
-
-#include "Encoding.h"
 
 int32_t lastX;
 int32_t lastY;
 uint8_t holdPress = 0;
 double SCALE = 2.5;
 
-void handle_mouse(short dx, short dy) {
+void handle_mouse(mouse_data_t data) {
+    int16_t dx = data.dx;
+    int16_t dy = data.dy;
     if (dx == SHRT_MAX && dy == SHRT_MAX)  // left click
     {
         if (!holdPress) {
@@ -38,21 +38,20 @@ void handle_mouse(short dx, short dy) {
         if (dx == 0 && dy == 0) {
             POINT p;
             GetCursorPos(&p);
-            lastX = p.y;  // ew
-            lastY = p.x;
+            lastX = p.x;
+            lastY = p.y;
         }
-        SetCursorPos((int)(lastY + ((double)dy * SCALE)), (int)(lastX + ((double)dx * SCALE)));
+        SetCursorPos((int)(lastX + ((double)dx * SCALE)), (int)(lastY + ((double)dy * SCALE)));
     }
 }
 
-void handle_UDP(uint8_t *bytes) {
-    process(bytes);  
-    switch (type) {
+void handle_UDP(data_t *data) {
+    switch (data->type) {
         case 0:
-            handle_mouse(dy, dx); // TODO: fix this
+            handle_mouse(data->mouseData);
             break;
         case 1:
-            // HandleKey(key);
+            // HandleKey(data->keyData);
             break;
     }
 }

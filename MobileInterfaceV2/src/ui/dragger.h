@@ -12,5 +12,7 @@ typedef struct Dragger {
 void InitDragger(dragger_t* d);
 void DestroyDragger(dragger_t* d);
 void DrawDragger(dragger_t* d);
+void PressDragger(dragger_t* d);
+void DragDragger(dragger_t* d);
 
 #endif

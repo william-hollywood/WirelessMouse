@@ -1,8 +1,8 @@
 ﻿#include "WirelessMouseDesktopV2.h"
 
-#include <stdio.h>
 #include <windows.h>
 #pragma comment(lib, "ws2_32.lib")  // Winsock Library
+#include <stdio.h>
 
 #include "MouseControl.h"
 
@@ -10,9 +10,9 @@
 #define ID_ABOUT 2000
 #define ID_EXIT 2001
 
-#define DEBUG
+// #define DEBUG
 
-#ifdef DEBUG
+#ifndef DEBUG
 #define printf(...)
 #endif
 
@@ -170,7 +170,7 @@ int Window_Create(HINSTANCE hInst, HINSTANCE prev, LPSTR cmdline, int show) {
     RegisterClassEx(&wclx);
 
     // CREATE WINDOW.----------------------------------------------------------------------------
-    HWND hWnd = CreateWindowEx(NULL, THIS_CLASSNAME, TEXT(""), WS_DISABLED, 100, 100, 250, 150, NULL, NULL, hInst, NULL);
+    HWND hWnd = CreateWindowEx(0, THIS_CLASSNAME, TEXT(""), WS_DISABLED, 100, 100, 250, 150, NULL, NULL, hInst, NULL);
     if (!hWnd) {
         MessageBox(NULL, "Can't create window!", TEXT("Warning!"), MB_ICONERROR | MB_OK | MB_TOPMOST);
         return 1;
@@ -239,7 +239,14 @@ int udp_thread_func(LPVOID lpParam) {
 
         // print details of the client/peer and the data received
         printf("Received packet from %s:%d\n", inet_ntoa(si_other.sin_addr), ntohs(si_other.sin_port));
-        handle_UDP(buf);
+        if (recv_len == sizeof(data_t))
+        {
+            handle_UDP((data_t *) buf);
+        }
+        else
+        {
+            printf("Received packet of invalid size: %d\n", recv_len);
+        }
     }
 
     closesocket(s);
@@ -248,7 +255,7 @@ int udp_thread_func(LPVOID lpParam) {
     return 0;
 }
 
-int WINAPI WinMain(void) {
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     udpThread = CreateThread(NULL, 0, udp_thread_func, NULL, 0, NULL);
     if (!udpThread) {
         return -1;

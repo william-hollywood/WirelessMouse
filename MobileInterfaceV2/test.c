@@ -19,7 +19,7 @@
 #define CNFG_IMPLEMENTATION
 #include "CNFG.h"
 
-unsigned frames = 0;
+unsigned Frames = 0;
 unsigned long iframeno = 0;
 
 #define GENLINEWIDTH 89
@@ -70,7 +70,7 @@ void LogFunction(int readSize, char* buf) {
     OGUnlockMutex(mt);
 }
 
-volatile int suspended;
+volatile int Suspended;
 
 short screenx, screeny;
 int lastbuttonx = 0;
@@ -109,11 +109,11 @@ void HandleDestroy() {
 }
 
 void HandleSuspend() {
-    suspended = 1;
+    Suspended = 1;
 }
 
 void HandleResume() {
-    suspended = 0;
+    Suspended = 0;
 }
 
 int main() {
@@ -145,7 +145,7 @@ int main() {
 
         CNFGHandleInput();
 
-        if (suspended) {
+        if (Suspended) {
             usleep(50000);
             continue;
         }
@@ -210,13 +210,13 @@ int main() {
         CNFGPenY = 600;
         CNFGDrawText(GenLog, 4);
 
-        frames++;
+        Frames++;
         CNFGSwapBuffers();
 
         ThisTime = OGGetAbsoluteTime();
         if (ThisTime > LastFPSTime + 1) {
-            printf("FPS: %d\n", frames);
-            frames = 0;
+            printf("FPS: %d\n", Frames);
+            Frames = 0;
             linesegs = 0;
             LastFPSTime += 1;
         }
