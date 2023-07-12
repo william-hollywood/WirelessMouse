@@ -155,7 +155,8 @@ int32_t main()
         CNFGColor(0xffffffff);
         CNFGGetDimensions(&ScreenX, &ScreenY);
         uint8_t events = 0;
-        events |= (NewPress) ? 1 : 0;
+        events |= (NewPress) ? 0x1 : 0;
+        events |= (PressDown) ? 0x2 : 0;
 
         AppTick(events);
         AppDraw();

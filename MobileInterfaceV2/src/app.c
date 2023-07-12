@@ -66,8 +66,14 @@ void AppInit(void)
 void AppTick(uint8_t events)
 {
     if (events != 0) {
-        for (int i = 0; i < ButtonCount; i++) {
-            ButtonHandlePress(&Buttons[i]);
+        if (events & EVENT_PRESS) {
+            for (int i = 0; i < ButtonCount; i++) {
+                ButtonHandlePress(&Buttons[i]);
+            }
+            PressDragger(&Dragger);
+        }
+        if (events & EVENT_DRAG) {
+            DragDragger(&Dragger);
         }
     }
 }

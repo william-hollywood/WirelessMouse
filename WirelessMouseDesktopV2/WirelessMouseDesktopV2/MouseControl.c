@@ -9,9 +9,9 @@ int32_t lastY;
 uint8_t holdPress = 0;
 double SCALE = 2.5;
 
-void handle_mouse(mouse_data_t data) {
-    int16_t dx = data.dx;
-    int16_t dy = data.dy;
+void handle_mouse(mouse_data_t *data) {
+    int16_t dx = data->dx;
+    int16_t dy = data->dy;
     if (dx == SHRT_MAX && dy == SHRT_MAX)  // left click
     {
         if (!holdPress) {
@@ -41,14 +41,14 @@ void handle_mouse(mouse_data_t data) {
             lastX = p.x;
             lastY = p.y;
         }
-        SetCursorPos((int)(lastX + ((double)dx * SCALE)), (int)(lastY + ((double)dy * SCALE)));
+        SetCursorPos((int)(lastX - ((double)dx * SCALE)), (int)(lastY - ((double)dy * SCALE)));
     }
 }
 
-void handle_UDP(data_t *data) {
+void HandleUDP(data_t *data) {
     switch (data->type) {
         case 0:
-            handle_mouse(data->mouseData);
+            handle_mouse(&(data->mouseData));
             break;
         case 1:
             // HandleKey(data->keyData);

@@ -226,7 +226,7 @@ int udp_thread_func(LPVOID lpParam) {
 
     // keep listening for data
     while (1) {
-        printf("Waiting for data...");
+        printf("Waiting for data...\n");
 
         // clear the buffer by filling null, it might have previously received data
         memset(buf, '\0', BUFLEN);
@@ -241,11 +241,11 @@ int udp_thread_func(LPVOID lpParam) {
         printf("Received packet from %s:%d\n", inet_ntoa(si_other.sin_addr), ntohs(si_other.sin_port));
         if (recv_len == sizeof(data_t))
         {
-            handle_UDP((data_t *) buf);
+            HandleUDP((data_t *) buf);
         }
         else
         {
-            printf("Received packet of invalid size: %d\n", recv_len);
+            printf("Received packet of invalid size: %d expected %u\n", recv_len, sizeof(data_t));
         }
     }
 
