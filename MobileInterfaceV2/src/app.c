@@ -75,6 +75,9 @@ void AppTick(uint8_t events)
         if (events & EVENT_DRAG) {
             DragDragger(&Dragger);
         }
+        if (events & EVENT_RELEASE) {
+            ReleaseDragger(&Dragger);
+        }
     }
 }
 

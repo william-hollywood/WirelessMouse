@@ -35,7 +35,9 @@ int16_t ScreenX, ScreenY;
 int32_t PressX = 0;
 int32_t PressY = 0;
 int32_t PressDown = 0;
+double PressDownTime = 0;
 int32_t NewPress = 0;
+int32_t NewRelease = 0;
 int32_t MoveX = 0;
 int32_t MoveY = 0;
 int32_t NumTouches = 0;
@@ -110,7 +112,11 @@ void HandleKey(int32_t keycode, int32_t bDown)
 // Handle presses on the screen
 void HandleButton(int32_t x, int32_t y, int32_t button, int32_t bDown)
 {
+    if (bDown) {
+        PressDownTime = OGGetAbsoluteTime();
+    }
     PressDown = NewPress = bDown;
+    NewRelease = !bDown;
     if (bDown)
         DoHideKeyboard = 1;
     NumTouches = bDown ? button + 1 : 0;
@@ -155,8 +161,9 @@ int32_t main()
         CNFGColor(0xffffffff);
         CNFGGetDimensions(&ScreenX, &ScreenY);
         uint8_t events = 0;
-        events |= (NewPress) ? 0x1 : 0;
-        events |= (PressDown) ? 0x2 : 0;
+        events |= (NewPress) ? EVENT_PRESS : 0;
+        events |= (NewRelease) ? EVENT_RELEASE : 0;
+        events |= (PressDown) ? EVENT_DRAG : 0;
 
         AppTick(events);
         AppDraw();
@@ -167,17 +174,19 @@ int32_t main()
         DGB_INT(PressY);
         DGB_INT(PressDown);
         DGB_INT(NewPress);
+        DGB_INT(NewRelease);
         DGB_INT(MoveX);
         DGB_INT(MoveY);
         DGB_INT(NumTouches);
 
-        if (NumTouches == 4) {
+        if (runtimeDebug) {
             CNFGPenX = 5;
             CNFGPenY = 600;
             CNFGDrawText(GenLog, 4);
         }
 
         NewPress = 0;
+        NewRelease = 0;
         if (DoHideKeyboard) {
             AndroidDisplayKeyboard(0);
             DoHideKeyboard = 0;
