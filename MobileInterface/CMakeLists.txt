@@ -2,38 +2,22 @@ cmake_minimum_required(VERSION 3.28)
 project("MobileInterface")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS "yes")
-set(APPNAME MobileInterface)
 
 set(ANDROIDSDK $ENV{ANDROID_HOME})
+set(ANDROIDTARGET 30)
+set(ANDROIDVERSION 30)
+set(APKFILE ${APPNAME}.apk)
+set(APPNAME MobileInterface)
+set(LABEL ${APPNAME})
 set(BUILD_TOOLS_VER 30.0.2)
 set(NDK_VER 21.3.6528147)
-
-include_directories(../WirelessMouseDesktop/src)
-add_link_options(-s)
-
 set(PACKAGENAME com.WDH.${APPNAME})
-set(APKFILE ${APPNAME}.apk)
-
-set(ANDROIDVERSION 30)
-set(ANDROIDTARGET 30)
-
 set(TARGET_ARCH arm64-v8a)
 
-set(APP_SRCS
-    src/main.c
-    src/app.c
-    src/ui/rect.c
-    src/ui/button.c
-    src/ui/dragger.c
-)
-# TODO: add subdir
-
 set(RAWDRAWANDROID rawdrawandroid)
-# CMake commands created based off of rawdrawandroid/Makefile
-set(RAWDRAWANDROIDSRCS ${RAWDRAWANDROID}/android_native_app_glue.c)
 
-# I don't need this
-# add_link_options(-static-libstdc++)
+# CMake commands created based off of rawdrawandroid/Makefile
+
 set(ANDROID_FULLSCREEN y)
 set(ADB $ENV{ADB})
 string(TOLOWER ${CMAKE_SYSTEM_NAME}-x86_64 OS_NAME)
@@ -45,6 +29,7 @@ add_compile_options(
     -Os
     -fvisibility=hidden
     -DRDALOGFNCB=LogFunction
+    -m64
 )
 add_compile_definitions(
     ANDROID
@@ -54,6 +39,8 @@ add_compile_definitions(
 if(${ANDROID_FULLSCREEN} STREQUAL "y")
     add_compile_definitions(ANDROID_FULLSCREEN)
 endif()
+
+# Add the library that has all our app stuff
 include_directories(
     ${RAWDRAWANDROID}/rawdraw
     ${NDK}/sysroot/usr/include
@@ -72,12 +59,11 @@ add_link_options(-uANativeActivity_onCreate)
 set(CMAKE_C_COMPILER
     ${NDK}/toolchains/llvm/prebuilt/${OS_NAME}/bin/aarch64-linux-android${ANDROIDVERSION}-clang
 )
-set(AAPT ${BUILD_TOOLS}/aapt)
 
-add_compile_options(-m64)
-
-# Add the library that has all our app stuff
-add_library(${APPNAME} SHARED ${APP_SRCS} ${RAWDRAWANDROIDSRCS})
+include_directories(${APPNAME} PRIVATE ../WirelessMouseDesktop/src)
+add_subdirectory(src)
+target_sources(${APPNAME} PRIVATE ${RAWDRAWANDROID}/android_native_app_glue.c)
+add_link_options(${APPNAME} PRIVATE -s)
 
 # Packaging process
 set(STOREPASS password)
@@ -103,17 +89,19 @@ add_custom_command(
         AndroidManifest.xml
 )
 
+set(ICONS "${CMAKE_CURRENT_LIST_DIR}/Sources/assets/icon.png" "${CMAKE_CURRENT_LIST_DIR}/Sources/res/mipmap/icon.png")
+
 add_custom_command(
     OUTPUT ${APKFILE}
     COMMAND rm -rf makecapk
     COMMAND mkdir -p makecapk/assets
     COMMAND mkdir -p makecapk/lib/${TARGET_ARCH}
-    COMMAND cp $<TARGET_FILE_NAME:${APPNAME}> makecapk/lib/${TARGET_ARCH}
+    COMMAND cp $<TARGET_FILE:${APPNAME}> makecapk/lib/${TARGET_ARCH}
     COMMAND cp -r ${CMAKE_BINARY_DIR}/${KEYSTOREFILE} makecapk/
     COMMAND cp -r ${CMAKE_CURRENT_LIST_DIR}/Sources/assets/* makecapk/assets
     COMMAND rm -rf temp.apk
     COMMAND
-        ${AAPT} package -f -F temp.apk -I
+        ${BUILD_TOOLS}/aapt package -f -F temp.apk -I
         ${ANDROIDSDK}/platforms/android-${ANDROIDVERSION}/android.jar -M
         AndroidManifest.xml -S ${CMAKE_CURRENT_LIST_DIR}/Sources/res -A
         makecapk/assets -v --target-sdk-version ${ANDROIDTARGET}
@@ -136,6 +124,6 @@ add_custom_command(
     COMMAND rm -rf ${CMAKE_BINARY_DIR}/temp.apk
     COMMAND rm -rf ${CMAKE_BINARY_DIR}/makecapk.apk
     COMMAND ls -l ${APKFILE}
-    DEPENDS ${APPNAME} AndroidManifest.xml ${KEYSTOREFILE}
+    DEPENDS ${APPNAME} AndroidManifest.xml ${KEYSTOREFILE} ${ICONS}
 )
 add_custom_target(push COMMAND ${ADB} install -r ${APKFILE} DEPENDS ${APKFILE})
