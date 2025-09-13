@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "windows.h": "c",
-        "mousecontrol.h": "c",
-        "wirelessmousedesktopv2.h": "c",
-        "stdio.h": "c",
-        "limits.h": "c"
-    }
-}
