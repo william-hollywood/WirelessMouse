@@ -6,14 +6,14 @@
 #include <stdint.h>
 
 typedef struct dragger {
-    rect_t shape;
+	rect_t shape;
 } dragger_t;
 
-void InitDragger(dragger_t* d);
-void DestroyDragger(dragger_t* d);
-void DrawDragger(dragger_t* d);
-void PressDragger(dragger_t* b);
-void ReleaseDragger(dragger_t* d);
-void DragDragger(dragger_t* b);
+void InitDragger(dragger_t *d);
+void DestroyDragger(dragger_t *d);
+void DrawDragger(dragger_t *d);
+void PressDragger(dragger_t *b);
+void ReleaseDragger(dragger_t *d);
+void DragDragger(dragger_t *b);
 
 #endif

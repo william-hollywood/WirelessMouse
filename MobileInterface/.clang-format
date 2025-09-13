@@ -1,0 +1,10 @@
+---
+UseTab: Always
+IndentWidth: 4
+TabWidth: 4
+InsertBraces: true
+ColumnLimit: 120
+Cpp11BracedListStyle: false
+AccessModifierOffset: -4
+IndentAccessModifiers: false
+...

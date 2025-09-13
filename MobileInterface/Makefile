@@ -1,7 +1,7 @@
 
-APPNAME=MobileInterfaceV2
+APPNAME=MobileInterface
 RAWDRAWANDROID=rawdrawandroid
-CFLAGS:=-I. -I../WirelessMouseDesktopV2/WirelessMouseDesktopV2/ -ffunction-sections -Os -fvisibility=hidden -DRDALOGFNCB=LogFunction
+CFLAGS:=-I. -I../WirelessMouseDesktop/src/ -ffunction-sections -Os -fvisibility=hidden -DRDALOGFNCB=LogFunction
 LDFLAGS:=-s
 PACKAGENAME?=com.WDH.$(APPNAME)
 SRC:=src/main.c src/app.c

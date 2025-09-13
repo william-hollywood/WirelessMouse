@@ -3,12 +3,7 @@
 
 #include <stdint.h>
 
-typedef enum State {
-    IDLE,
-    MOUSE,
-    KEYBOARD,
-    SETTINGS
-} eState;
+typedef enum State { IDLE, MOUSE, KEYBOARD, SETTINGS } eState;
 
 #define EVENT_PRESS 0x1
 #define EVENT_RELEASE 0x2

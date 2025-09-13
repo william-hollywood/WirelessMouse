@@ -20,13 +20,13 @@
 #include "app.h"
 
 uint8_t runtimeDebug = 0;
-#define DGB_INT(var)                       \
-    if (runtimeDebug) {                    \
-        char buf[1024];                    \
-        sprintf(buf, "%s: %d", #var, var); \
-        CNFGDrawText(buf, 8);              \
-        CNFGPenY += 40;                    \
-    }
+#define DGB_INT(var)                                                                                                   \
+	if (runtimeDebug) {                                                                                                \
+		char buf[1024];                                                                                                \
+		sprintf(buf, "%s: %d", #var, var);                                                                             \
+		CNFGDrawText(buf, 8);                                                                                          \
+		CNFGPenY += 40;                                                                                                \
+	}
 
 uint32_t Frames = 0;
 volatile int32_t Suspended;
@@ -46,7 +46,7 @@ int32_t LastKey, LastKeyDown;
 int8_t KeyboardUp;
 int8_t DoHideKeyboard = 0;
 
-extern struct android_app* gapp;
+extern struct android_app *gapp;
 
 #define GENLINEWIDTH 89
 #define GENLINES 67
@@ -56,151 +56,152 @@ int GenLogLen;
 int GenLogLines;
 int FirstNewLine = -1;
 
-void LogFunction(int readSize, char* buf)
-{
-    static og_mutex_t* mt;
-    if (!mt)
-        mt = OGCreateMutex();
-    OGLockMutex(mt);
-    int i, k;
-    for (i = 0; (readSize >= 0) ? (i <= readSize) : buf[i]; i++) {
-        char c = buf[i];
-        if (c == '\0')
-            c = '\n';
-        if ((c != '\n' && GenLineLen >= GENLINEWIDTH) || c == '\n') {
-            GenLogLines++;
-            if (GenLogLines >= GENLINES) {
-                GenLogLen -= FirstNewLine + 1;
-                int offset = FirstNewLine;
-                FirstNewLine = -1;
+void LogFunction(int readSize, char *buf) {
+	static og_mutex_t *mt;
+	if (!mt) {
+		mt = OGCreateMutex();
+	}
+	OGLockMutex(mt);
+	int i, k;
+	for (i = 0; (readSize >= 0) ? (i <= readSize) : buf[i]; i++) {
+		char c = buf[i];
+		if (c == '\0') {
+			c = '\n';
+		}
+		if ((c != '\n' && GenLineLen >= GENLINEWIDTH) || c == '\n') {
+			GenLogLines++;
+			if (GenLogLines >= GENLINES) {
+				GenLogLen -= FirstNewLine + 1;
+				int offset = FirstNewLine;
+				FirstNewLine = -1;
 
-                for (k = 0; k < GenLogLen; k++) {
-                    if ((GenLog[k] = GenLog[k + offset + 1]) == '\n' && FirstNewLine < 0) {
-                        FirstNewLine = k;
-                    }
-                }
-                GenLog[k] = 0;
-                GenLogLines--;
-            }
-            GenLineLen = 0;
-            if (c != '\n') {
-                GenLog[GenLogLen + 1] = 0;
-                GenLog[GenLogLen++] = '\n';
-            }
-            if (FirstNewLine < 0)
-                FirstNewLine = GenLogLen;
-        }
-        GenLog[GenLogLen + 1] = 0;
-        GenLog[GenLogLen++] = c;
-        if (c != '\n')
-            GenLineLen++;
-    }
+				for (k = 0; k < GenLogLen; k++) {
+					if ((GenLog[k] = GenLog[k + offset + 1]) == '\n' && FirstNewLine < 0) {
+						FirstNewLine = k;
+					}
+				}
+				GenLog[k] = 0;
+				GenLogLines--;
+			}
+			GenLineLen = 0;
+			if (c != '\n') {
+				GenLog[GenLogLen + 1] = 0;
+				GenLog[GenLogLen++] = '\n';
+			}
+			if (FirstNewLine < 0) {
+				FirstNewLine = GenLogLen;
+			}
+		}
+		GenLog[GenLogLen + 1] = 0;
+		GenLog[GenLogLen++] = c;
+		if (c != '\n') {
+			GenLineLen++;
+		}
+	}
 
-    OGUnlockMutex(mt);
+	OGUnlockMutex(mt);
 }
 
 // Handle physical keys (volume), and back/home, etc
-void HandleKey(int32_t keycode, int32_t bDown)
-{
-    LastKey = keycode;
-    LastKeyDown = bDown;
-    if (keycode == AKEYCODE_BACK) {
-        AndroidSendToBack(1);
-    }
+void HandleKey(int32_t keycode, int32_t bDown) {
+	LastKey = keycode;
+	LastKeyDown = bDown;
+	if (keycode == AKEYCODE_BACK) {
+		AndroidSendToBack(1);
+	}
 }
 
 // Handle presses on the screen
-void HandleButton(int32_t x, int32_t y, int32_t button, int32_t bDown)
-{
-    if (bDown) {
-        PressDownTime = OGGetAbsoluteTime();
-    }
-    PressDown = NewPress = bDown;
-    NewRelease = !bDown;
-    if (bDown)
-        DoHideKeyboard = 1;
-    NumTouches = bDown ? button + 1 : 0;
-    if (NumTouches == 5)
-        runtimeDebug = !runtimeDebug;
-    PressX = x;
-    PressY = y;
+void HandleButton(int32_t x, int32_t y, int32_t button, int32_t bDown) {
+	if (bDown) {
+		PressDownTime = OGGetAbsoluteTime();
+	}
+	PressDown = NewPress = bDown;
+	NewRelease = !bDown;
+	if (bDown) {
+		DoHideKeyboard = 1;
+	}
+	NumTouches = bDown ? button + 1 : 0;
+	if (NumTouches == 5) {
+		runtimeDebug = !runtimeDebug;
+	}
+	PressX = x;
+	PressY = y;
 }
 
 // Handle dragging on the screen
-void HandleMotion(int32_t x, int32_t y, int32_t mask)
-{
-    MoveMask = mask;
-    MoveX = x;
-    MoveY = y;
+void HandleMotion(int32_t x, int32_t y, int32_t mask) {
+	MoveMask = mask;
+	MoveX = x;
+	MoveY = y;
 }
 
-void HandleDestroy(void) { }
+void HandleDestroy(void) {}
 
 void HandleSuspend(void) { Suspended = 1; }
 
 void HandleResume(void) { Suspended = 0; }
 
-int32_t main()
-{
-    double thisTime;
-    double lastFrameTime = OGGetAbsoluteTime();
-    CNFGSetupFullscreen("Wireless Interface V2", 0);
-    CNFGGetDimensions(&ScreenX, &ScreenY);
+int32_t main() {
+	double thisTime;
+	double lastFrameTime = OGGetAbsoluteTime();
+	CNFGSetupFullscreen("Wireless Interface V2", 0);
+	CNFGGetDimensions(&ScreenX, &ScreenY);
 
-    AppInit();
+	AppInit();
 
-    while (1) {
-        CNFGHandleInput();
+	while (1) {
+		CNFGHandleInput();
 
-        if (Suspended) {
-            usleep(50000);
-            continue;
-        }
+		if (Suspended) {
+			usleep(50000);
+			continue;
+		}
 
-        CNFGClearFrame();
-        CNFGColor(0xffffffff);
-        CNFGGetDimensions(&ScreenX, &ScreenY);
-        uint8_t events = 0;
-        events |= (NewPress) ? EVENT_PRESS : 0;
-        events |= (NewRelease) ? EVENT_RELEASE : 0;
-        events |= (PressDown) ? EVENT_DRAG : 0;
+		CNFGClearFrame();
+		CNFGColor(0xffffffff);
+		CNFGGetDimensions(&ScreenX, &ScreenY);
+		uint8_t events = 0;
+		events |= (NewPress) ? EVENT_PRESS : 0;
+		events |= (NewRelease) ? EVENT_RELEASE : 0;
+		events |= (PressDown) ? EVENT_DRAG : 0;
 
-        AppTick(events);
-        AppDraw();
-        CNFGColor(0xffffffff);
-        CNFGPenX = 5;
-        CNFGPenY = 5;
-        DGB_INT(PressX);
-        DGB_INT(PressY);
-        DGB_INT(PressDown);
-        DGB_INT(NewPress);
-        DGB_INT(NewRelease);
-        DGB_INT(MoveX);
-        DGB_INT(MoveY);
-        DGB_INT(NumTouches);
+		AppTick(events);
+		AppDraw();
+		CNFGColor(0xffffffff);
+		CNFGPenX = 5;
+		CNFGPenY = 5;
+		DGB_INT(PressX);
+		DGB_INT(PressY);
+		DGB_INT(PressDown);
+		DGB_INT(NewPress);
+		DGB_INT(NewRelease);
+		DGB_INT(MoveX);
+		DGB_INT(MoveY);
+		DGB_INT(NumTouches);
 
-        if (runtimeDebug) {
-            CNFGPenX = 5;
-            CNFGPenY = 600;
-            CNFGDrawText(GenLog, 4);
-        }
+		if (runtimeDebug) {
+			CNFGPenX = 5;
+			CNFGPenY = 600;
+			CNFGDrawText(GenLog, 4);
+		}
 
-        NewPress = 0;
-        NewRelease = 0;
-        if (DoHideKeyboard) {
-            AndroidDisplayKeyboard(0);
-            DoHideKeyboard = 0;
-        }
+		NewPress = 0;
+		NewRelease = 0;
+		if (DoHideKeyboard) {
+			AndroidDisplayKeyboard(0);
+			DoHideKeyboard = 0;
+		}
 
-        Frames++;
-        CNFGSwapBuffers();
+		Frames++;
+		CNFGSwapBuffers();
 
-        thisTime = OGGetAbsoluteTime();
-        if (thisTime > lastFrameTime + 1) {
-            Frames = 0;
-            lastFrameTime += 1;
-        }
-    }
+		thisTime = OGGetAbsoluteTime();
+		if (thisTime > lastFrameTime + 1) {
+			Frames = 0;
+			lastFrameTime += 1;
+		}
+	}
 
-    return (0);
+	return (0);
 }
