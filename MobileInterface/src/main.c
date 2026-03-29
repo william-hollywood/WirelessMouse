@@ -28,6 +28,14 @@ uint8_t runtimeDebug = 0;
 		CNFGPenY += 40;                                                                                                \
 	}
 
+#define DGB_HEX8(var)                                                                                                   \
+	if (runtimeDebug) {                                                                                                \
+		char buf[1024];                                                                                                \
+		sprintf(buf, "%s: 0x%02X", #var, var);                                                                             \
+		CNFGDrawText(buf, 8);                                                                                          \
+		CNFGPenY += 40;                                                                                                \
+	}
+
 uint32_t Frames = 0;
 volatile int32_t Suspended;
 
@@ -164,7 +172,7 @@ int32_t main() {
 		uint8_t events = 0;
 		events |= (NewPress) ? EVENT_PRESS : 0;
 		events |= (NewRelease) ? EVENT_RELEASE : 0;
-		events |= (PressDown) ? EVENT_DRAG : 0;
+		events |= (!NewPress && PressDown) ? EVENT_DRAG : 0;
 
 		AppTick(events);
 		AppDraw();
@@ -173,11 +181,12 @@ int32_t main() {
 		CNFGPenY = 5;
 		DGB_INT(PressX);
 		DGB_INT(PressY);
-		DGB_INT(PressDown);
-		DGB_INT(NewPress);
-		DGB_INT(NewRelease);
 		DGB_INT(MoveX);
 		DGB_INT(MoveY);
+		DGB_HEX8(events);
+		DGB_INT(NewPress);
+		DGB_INT(NewRelease);
+		DGB_INT(PressDown);
 		DGB_INT(NumTouches);
 
 		if (runtimeDebug) {

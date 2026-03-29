@@ -18,5 +18,6 @@ typedef struct data {
 } data_t;
 #pragma pack(pop)
 void HandleUDP(data_t *data);
+void init_uinput(void);
 
 #endif // !_MOUSE_CONTROL

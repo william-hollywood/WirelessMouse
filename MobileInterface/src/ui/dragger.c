@@ -14,7 +14,7 @@ int SockFd;
 struct sockaddr_in ServerAddr;
 
 uint8_t IsHoldDrag = 0;
-int32_t LastDX, LastDY;
+int32_t LastX, LastY;
 
 data_t MouseData = {
     .type = 0,
@@ -63,8 +63,8 @@ void PressDragger(dragger_t *d) {
 		switch (NumTouches) {
 		case 1:
 			SendToSocket(0, 0, 0);
-			MoveX = PressX;
-			MoveY = PressY;
+			MoveX = LastX = PressX;
+			MoveY = LastY = PressY;
 			printf("Single Pressed dragger\n");
 			break;
 
@@ -86,20 +86,21 @@ void ReleaseDragger(dragger_t *d) {
 				printf("Send Release L-Click\n");
 			}
 		}
+		LastX = LastY = -1;
 	}
 }
 
 void DragDragger(dragger_t *d) {
-	if (InRect(&d->shape, PressX, PressY)) {
-		int32_t dx = PressX - MoveX;
-		int32_t dy = PressY - MoveY;
+	if (InRect(&d->shape, PressX, PressY) && MoveX != LastX && MoveY != LastY) {
+		int32_t dx = MoveX - LastX;
+		int32_t dy = MoveY - LastY;
 		switch (NumTouches) {
 		case 1:
-			if (LastDX != dx && LastDY != dy) { // throttle by time as well?
+			if (LastX != dx && LastY != dy) { // throttle by time as well?
 				SendToSocket(0, dx, dy);
 				printf("Dragged dragger %d, %d\n", dx, dy);
-				LastDX = dx;
-				LastDY = dy;
+				LastX = MoveX;
+				LastY = MoveY;
 			}
 			break;
 		default:

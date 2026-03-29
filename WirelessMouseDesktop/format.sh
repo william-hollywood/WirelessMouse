@@ -11,6 +11,6 @@ find src \(\
 
 find . -name "CMakeLists.txt" \
 	-not -path "./external/*" \
-	-exec gersemi -i ./mingw.cmake {} \+
+	-exec gersemi -i {} \+
 
 go fmt bundle-resources.go

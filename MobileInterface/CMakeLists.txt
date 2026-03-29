@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 4.3)
 project("MobileInterface")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS "yes")
@@ -9,10 +9,11 @@ set(ANDROIDVERSION 30)
 set(APKFILE ${APPNAME}.apk)
 set(APPNAME MobileInterface)
 set(LABEL ${APPNAME})
-set(BUILD_TOOLS_VER 30.0.2)
+set(BUILD_TOOLS_VER 37.0.0)
 set(NDK_VER 21.3.6528147)
 set(PACKAGENAME com.WDH.${APPNAME})
 set(TARGET_ARCH arm64-v8a)
+set(CMAKE_LINK_DEPENDS_USE_LINKER FALSE)
 
 set(RAWDRAWANDROID rawdrawandroid)
 

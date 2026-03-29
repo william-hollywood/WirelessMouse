@@ -2,5 +2,5 @@
 
 mkdir -p build
 cd build
-cmake -DCMAKE_TOOLCHAIN_FILE=./mingw.cmake .. -G Ninja
+cmake .. -G Ninja
 cmake --build . -j"$(nproc)" -v

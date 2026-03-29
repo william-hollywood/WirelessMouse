@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 project("WirelessMouseDesktop")
 
-enable_language("RC")
 set(CMAKE_EXPORT_COMPILE_COMMANDS "yes")
 add_compile_options(
     -Wall
@@ -36,6 +35,3 @@ target_sources(
     WirelessMouseDesktop
     PRIVATE ${CMAKE_BINARY_DIR}/resources/resources.c
 )
-
-set(WIN32_RESOURCES ${CMAKE_CURRENT_SOURCE_DIR}/favicon.rc)
-target_sources(WirelessMouseDesktop PRIVATE ${WIN32_RESOURCES})
