@@ -11,7 +11,6 @@
 #include <unistd.h>
 
 #include "MouseControl.h"
-#include "icons.h"
 
 #define BUFLEN 512 // Max length of buffer
 #define PORT 8192  // The port on which to listen for incoming data
@@ -41,7 +40,7 @@ int main(void) {
 		printf("Bind failed with error code : %d (%s)\n", errno, strerror(errno));
 		exit(1);
 	}
-	printf("Bind done\n");
+	DEBUG("Bind done\n");
 
 	// keep listening for data
 	while (1) {
