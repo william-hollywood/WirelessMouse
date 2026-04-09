@@ -1,14 +1,15 @@
 #include "dragger.h"
 #include "MouseControl.h"
-#include "os_generic.h"
 
+// Remove pedantic warnings for system includes
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
 #include <arpa/inet.h>
 #include <limits.h>
-#include <math.h>
 #include <netinet/in.h>
-#include <stdlib.h>
-#include <string.h>
+#include <os_generic.h>
 #include <sys/socket.h>
+#pragma GCC diagnostic pop
 
 int SockFd;
 struct sockaddr_in ServerAddr;

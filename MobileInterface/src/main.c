@@ -1,3 +1,6 @@
+// Remove pedantic warnings for android/rawdraw system includes
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
 #include <GLES3/gl3.h>
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
@@ -5,36 +8,36 @@
 #include <android/log.h>
 #include <android/sensor.h>
 #include <android_native_app_glue.h>
-#include <math.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#include "CNFGAndroid.h"
-#include "os_generic.h"
+#include <CNFGAndroid.h>
+#include <os_generic.h>
 
 // #define CNFG3D
 #define CNFG_IMPLEMENTATION
-#include "CNFG.h"
+#include <CNFG.h>
+#pragma GCC diagnostic pop
+
+#include <stdint.h>
+#include <stdio.h>
+
 #include "app.h"
 
 uint8_t runtimeDebug = 0;
-#define DGB_INT(var)                                                                                                   \
-	if (runtimeDebug) {                                                                                                \
-		char buf[1024];                                                                                                \
-		sprintf(buf, "%s: %d", #var, var);                                                                             \
-		CNFGDrawText(buf, 8);                                                                                          \
-		CNFGPenY += 40;                                                                                                \
+#define DBG_INT32(var) DEBUG_FUNC_INT32(#var, var)
+#define DBG_HEX8(var) DEBUG_FUNC_HEX8(#var, var)
+
+#define DEFINE_DEBUG_FUNC(funcSuffix, mType, fmtStr)                                                                   \
+	static inline void DEBUG_FUNC_##funcSuffix(char *str, mType data) {                                                \
+		if (runtimeDebug) {                                                                                            \
+			char buf[1024];                                                                                            \
+			sprintf(buf, #fmtStr, str, data);                                                                          \
+			CNFGDrawText(buf, 8);                                                                                      \
+			CNFGPenY += 40;                                                                                            \
+		}                                                                                                              \
 	}
 
-#define DGB_HEX8(var)                                                                                                   \
-	if (runtimeDebug) {                                                                                                \
-		char buf[1024];                                                                                                \
-		sprintf(buf, "%s: 0x%02X", #var, var);                                                                             \
-		CNFGDrawText(buf, 8);                                                                                          \
-		CNFGPenY += 40;                                                                                                \
-	}
+DEFINE_DEBUG_FUNC(INT32, int32_t, "%s: %d")
+DEFINE_DEBUG_FUNC(HEX8, int8_t, "%s: 0x%02X")
 
 uint32_t Frames = 0;
 volatile int32_t Suspended;
@@ -179,15 +182,15 @@ int32_t main() {
 		CNFGColor(0xffffffff);
 		CNFGPenX = 5;
 		CNFGPenY = 5;
-		DGB_INT(PressX);
-		DGB_INT(PressY);
-		DGB_INT(MoveX);
-		DGB_INT(MoveY);
-		DGB_HEX8(events);
-		DGB_INT(NewPress);
-		DGB_INT(NewRelease);
-		DGB_INT(PressDown);
-		DGB_INT(NumTouches);
+		DBG_INT32(PressX);
+		DBG_INT32(PressY);
+		DBG_INT32(MoveX);
+		DBG_INT32(MoveY);
+		DBG_HEX8(events);
+		DBG_INT32(NewPress);
+		DBG_INT32(NewRelease);
+		DBG_INT32(PressDown);
+		DBG_INT32(NumTouches);
 
 		if (runtimeDebug) {
 			CNFGPenX = 5;

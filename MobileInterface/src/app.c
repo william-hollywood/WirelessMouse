@@ -1,9 +1,10 @@
 #include "app.h"
 
-#include "CNFGAndroid.h"
-#include "ui/ui.h"
+#include <CNFGAndroid.h>
 #include <stdio.h>
 #include <string.h>
+
+#include "ui/ui.h"
 
 #define BORDER_SIZE 30
 

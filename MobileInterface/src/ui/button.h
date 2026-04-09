@@ -1,8 +1,9 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "rect.h"
 #include <stdint.h>
+
+#include "rect.h"
 
 typedef struct button {
 	rect_t shape;

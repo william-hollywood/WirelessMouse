@@ -63,7 +63,15 @@ set(CMAKE_C_COMPILER
 
 include_directories(${APPNAME} PRIVATE ../WirelessMouseDesktop/src)
 add_subdirectory(src)
-target_sources(${APPNAME} PRIVATE ${RAWDRAWANDROID}/android_native_app_glue.c)
+target_compile_options(${APPNAME} PRIVATE -Wall -Werror -Wpedantic)
+
+add_library(
+    android_native_app_glue
+    STATIC
+    ${RAWDRAWANDROID}/android_native_app_glue.c
+)
+target_link_libraries(${APPNAME} PRIVATE android_native_app_glue)
+
 add_link_options(${APPNAME} PRIVATE -s)
 
 # Packaging process
@@ -90,7 +98,10 @@ add_custom_command(
         AndroidManifest.xml
 )
 
-set(ICONS "${CMAKE_CURRENT_LIST_DIR}/Sources/assets/icon.png" "${CMAKE_CURRENT_LIST_DIR}/Sources/res/mipmap/icon.png")
+set(ICONS
+    "${CMAKE_CURRENT_LIST_DIR}/Sources/assets/icon.png"
+    "${CMAKE_CURRENT_LIST_DIR}/Sources/res/mipmap/icon.png"
+)
 
 add_custom_command(
     OUTPUT ${APKFILE}

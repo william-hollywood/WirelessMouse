@@ -32,7 +32,6 @@ void InitRect(rect_t *r) {
 	}
 	r->num_points = 8; // start + end of each side + 4 * number of corner points
 	r->points = (RDPoint *)calloc(r->num_points, sizeof(RDPoint));
-	double angle;
 	// Top Line
 	ADD_POINT(LXi, TY); // TL
 	ADD_POINT(RXi, TY); // TR

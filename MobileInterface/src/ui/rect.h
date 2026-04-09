@@ -1,7 +1,7 @@
 #ifndef RECT_H
 #define RECT_H
 
-#include "CNFG.h"
+#include <CNFG.h>
 
 typedef struct rect {
 	RDPoint *points;

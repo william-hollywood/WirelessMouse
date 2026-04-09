@@ -1,9 +1,10 @@
 #ifndef DRAGGER_H
 #define DRAGGER_H
 
-#include "CNFG.h"
-#include "rect.h"
+#include <CNFG.h>
 #include <stdint.h>
+
+#include "rect.h"
 
 typedef struct dragger {
 	rect_t shape;

@@ -6,17 +6,16 @@
 typedef struct mouse_data {
 	int16_t dx;
 	int16_t dy;
-} mouse_data_t;
+} __attribute__((packed)) mouse_data_t;
 
-#pragma pack(push, 1)
 typedef struct data {
 	uint8_t type;
 	union {
 		mouse_data_t mouseData;
 		uint32_t keyData;
 	};
-} data_t;
-#pragma pack(pop)
+} __attribute__((packed)) data_t;
+
 void HandleUDP(data_t *data);
 void init_uinput(void);
 
