@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <limits.h>
 #include <linux/uinput.h>
+#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -33,6 +34,10 @@ void init_uinput(void) {
 	ioctl(fd, UI_SET_EVBIT, EV_REL);
 	ioctl(fd, UI_SET_RELBIT, REL_X);
 	ioctl(fd, UI_SET_RELBIT, REL_Y);
+	ioctl(fd, UI_SET_RELBIT, REL_WHEEL);
+	ioctl(fd, UI_SET_RELBIT, REL_HWHEEL);
+	ioctl(fd, UI_SET_RELBIT, REL_WHEEL_HI_RES);
+	ioctl(fd, UI_SET_RELBIT, REL_HWHEEL_HI_RES);
 
 	memset(&usetup, 0, sizeof(usetup));
 	usetup.id.bustype = BUS_USB;
@@ -49,14 +54,13 @@ void mouse_click(int event, int val) {
 	emit(fd, EV_SYN, SYN_REPORT, 0);
 }
 
-void mouse_event(int relX, int relY) {
-
+void move_event(int relX, int relY) {
 	emit(fd, EV_REL, REL_X, relX);
 	emit(fd, EV_REL, REL_Y, relY);
 	emit(fd, EV_SYN, SYN_REPORT, 0);
 }
 
-void handle_mouse(mouse_data_t *data) {
+void handle_move(mouse_data_t *data) {
 	int16_t dx = data->dx;
 	int16_t dy = data->dy;
 	if (dx == SHRT_MAX && dy == SHRT_MAX) // left click
@@ -84,17 +88,37 @@ void handle_mouse(mouse_data_t *data) {
 		}
 		holdPress = 0;
 	} else {
-		mouse_event((int)(((double)dx * SCALE)), (int)(((double)dy * SCALE)));
+		move_event((int)(((double)dx * SCALE)), (int)(((double)dy * SCALE)));
+	}
+}
+
+void handle_scroll(mouse_data_t *data) {
+	int16_t dx = data->dx;
+	int16_t dy = data->dy;
+	int32_t event = 0;
+	int32_t dir = 0;
+	static const int32_t SCROLL_SCALE = 4;
+	if (dy != 0) {
+		event = REL_WHEEL_HI_RES;
+		dir = dy * SCROLL_SCALE;
+	} else if (dx != 0) {
+		event = REL_HWHEEL_HI_RES;
+		dir = dx * SCROLL_SCALE;
+	}
+	if (event != 0) {
+		emit(fd, EV_REL, event, dir);
+		emit(fd, EV_SYN, SYN_REPORT, 0);
 	}
 }
 
 void HandleUDP(data_t *data) {
 	switch (data->type) {
 	case 0:
-		handle_mouse(&(data->mouseData));
+		handle_move(&(data->mouseData));
 		break;
 	case 1:
-		// HandleKey(data->keyData);
+	case 2:
+		handle_scroll(&(data->mouseData));
 		break;
 	}
 }

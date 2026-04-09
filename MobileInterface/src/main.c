@@ -30,7 +30,7 @@ uint8_t runtimeDebug = 0;
 	static inline void DEBUG_FUNC_##funcSuffix(char *str, mType data) {                                                \
 		if (runtimeDebug) {                                                                                            \
 			char buf[1024];                                                                                            \
-			sprintf(buf, #fmtStr, str, data);                                                                          \
+			sprintf(buf, fmtStr, str, data);                                                                           \
 			CNFGDrawText(buf, 8);                                                                                      \
 			CNFGPenY += 40;                                                                                            \
 		}                                                                                                              \

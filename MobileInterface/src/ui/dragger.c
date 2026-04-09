@@ -63,16 +63,21 @@ void PressDragger(dragger_t *d) {
 	if (InRect(&d->shape, PressX, PressY)) {
 		switch (NumTouches) {
 		case 1:
-			SendToSocket(0, 0, 0);
-			MoveX = LastX = PressX;
-			MoveY = LastY = PressY;
 			printf("Single Pressed dragger\n");
 			break;
-
+		case 2:
+			printf("Double Pressed dragger\n");
+			break;
+		case 3:
+			printf("Triple Pressed dragger\n");
+			break;
 		default:
 			printf("Unimplemented dragger press\n");
-			break;
+			return;
 		}
+		MoveX = LastX = PressX;
+		MoveY = LastY = PressY;
+		SendToSocket(0, 0, 0);
 	}
 }
 
@@ -95,17 +100,25 @@ void DragDragger(dragger_t *d) {
 	if (InRect(&d->shape, PressX, PressY) && MoveX != LastX && MoveY != LastY) {
 		int32_t dx = MoveX - LastX;
 		int32_t dy = MoveY - LastY;
-		switch (NumTouches) {
-		case 1:
-			if (LastX != dx && LastY != dy) { // throttle by time as well?
+		if (LastX != dx && LastY != dy) {
+			LastX = MoveX;
+			LastY = MoveY;
+			switch (NumTouches) {
+			case 1: // Move
 				SendToSocket(0, dx, dy);
 				printf("Dragged dragger %d, %d\n", dx, dy);
-				LastX = MoveX;
-				LastY = MoveY;
+				break;
+			case 2: // Vert Scroll
+				SendToSocket(1, 0, dy);
+				printf("V-Scroll dragger %d, %d\n", dx, dy);
+				break;
+			case 3: // Horiz Scroll
+				SendToSocket(2, -dx, 0);
+				printf("H-Scroll dragger %d, %d\n", dx, dy);
+				break;
+			default:
+				break;
 			}
-			break;
-		default:
-			break;
 		}
 	}
 }

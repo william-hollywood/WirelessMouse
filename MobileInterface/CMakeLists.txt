@@ -139,3 +139,10 @@ add_custom_command(
     DEPENDS ${APPNAME} AndroidManifest.xml ${KEYSTOREFILE} ${ICONS}
 )
 add_custom_target(push COMMAND ${ADB} install -r ${APKFILE} DEPENDS ${APKFILE})
+add_custom_target(
+    launch
+    COMMAND
+        ${ADB} shell monkey -p ${PACKAGENAME} -c
+        android.intent.category.LAUNCHER 1
+    DEPENDS push
+)
