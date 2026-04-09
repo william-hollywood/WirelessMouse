@@ -146,3 +146,6 @@ add_custom_target(
         android.intent.category.LAUNCHER 1
     DEPENDS push
 )
+
+add_custom_target(uninstall COMMAND ${ADB} uninstall ${PACKAGENAME})
+add_custom_target(repush COMMAND ${ADB} install -r ${APKFILE} DEPENDS uninstall ${APKFILE})
